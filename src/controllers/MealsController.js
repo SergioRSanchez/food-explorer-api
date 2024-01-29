@@ -13,10 +13,10 @@ class MealsController {
       image,
     })
 
-    const ingredientsInsert = ingredients.map(ingredient => {
+    const ingredientsInsert = ingredients.map(name => {
       return {
         meal_id,
-        ingredient_id: ingredient
+        name
       }
     })
 
@@ -29,12 +29,11 @@ class MealsController {
     const { id } = request.params;
 
     const meal = await knex("meals").where({ id }).first();
-    const ingredients = await knex("ingredients").where({ meal_id: id }).select("ingredient_id");
-    const ingredientsName = await knex("ingredients").whereIn("ingredient_id", ingredients).select("name");
+    const ingredients = await knex("ingredients").where({ meal_id: id }).orderBy("name");
 
     return response.json({
       ...meal,
-      ingredients: ingredientsName
+      ingredients
     })
   }
 
@@ -55,31 +54,29 @@ class MealsController {
       const filterIngredients = ingredients.split(',').map(ingredient => ingredient.trim());
 
       meals = await knex("ingredients")
-        .select(["meals.id", "meals.title", "meals.description", "meals.price", "meals.category", "meals.image"
+        .select([
+          "meals.id",
+          "meals.title",
+          "meals.description",
+          "meals.price",
+          "meals.category",
+          "meals.image",
         ])
-        .where("ingredients.ingredient_id", "in", filterIngredients)
-        .join("meals", "meals.id", "ingredients.meal_id")
+        .where("ingredients.name", "like", `%${filterIngredients}%`)
+        .whereLike("meals.title", `%${title}%`)
+        .whereIn("name", filterIngredients)
+        .innerJoin("meals", "meals.id", "ingredients.meal_id")
         .groupBy("meals.id")
-        .orderBy("meals.title");
+        .orderBy("meals.title")
     } else {
       meals = await knex("meals")
         .whereLike("title", `%${title}%`)
     }
 
-    const mealsWithIngredients = await Promise.all(
-      meals.map(async meal => {
-        const ingredients = await knex("ingredients")
-          .where({ meal_id: meal.id })
-          .select("ingredient_id");
+    //  talvez tenha que fazer um meals with ingredients
 
-        return {
-          ...meal,
-          ingredients
-        }
-      })
-    );
 
-    return response.json(mealsWithIngredients);
+    return response.json(meals);
   }
 };
 
