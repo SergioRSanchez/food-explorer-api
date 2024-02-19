@@ -13,7 +13,7 @@ class MealAvatarController {
     const meal = await knex("meals").where({ id }).first();
 
     if (!meal) {
-      throw new AppError("Only authenticated users can change avatar", 401);
+      throw new AppError("Meal doesn't exist", 401);
     }
 
     if (meal.image) {
