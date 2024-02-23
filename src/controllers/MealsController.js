@@ -38,12 +38,11 @@ class MealsController {
   }
 
   async update(request, response) {
-    const { title, description, ingredientsList, price } = request.body;
+    const { title, description, ingredientsList, price, category } = request.body;
     const { id } = request.params;
 
     const meal = await knex("meals").where({ id }).first();
     const ingredients = await knex("ingredients").where({ meal_id: id });
-    // const ingredients = await knex("ingredients").where({ meal_id: id });
 
     if (!meal) {
       throw new AppError("Meal doesn't exist", 401);
@@ -52,6 +51,7 @@ class MealsController {
     meal.title = title ?? meal.title;
     meal.description = description ?? meal.description;
     meal.price = price ?? meal.price;
+    meal.category = category ?? meal.category;
 
     if (ingredientsList) {
       const ingredientsInsert = ingredientsList.map(name => {
@@ -67,8 +67,8 @@ class MealsController {
 
     await knex("meals").update(meal).where({ id });
 
-    // return response.status(200).json();
-    return response.json(meal);
+    return response.status(200).json();
+    // return response.json(meal);
   }
 
   async delete(request, response) {
