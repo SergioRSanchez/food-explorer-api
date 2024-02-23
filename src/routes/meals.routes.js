@@ -19,6 +19,7 @@ mealsRoutes.post('/', mealsController.create);
 mealsRoutes.get('/:id', mealsController.show);
 mealsRoutes.delete('/:id', mealsController.delete);
 mealsRoutes.patch('/:id/avatar', ensureAuthenticated, upload.single("avatar"), mealAvatarController.update);
+mealsRoutes.put('/:id', ensureAuthenticated, mealsController.update);
 
 
 module.exports = mealsRoutes;
