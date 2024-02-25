@@ -80,77 +80,13 @@ class MealsController {
   }
 
   async index(request, response) {
-    // const { title, ingredients } = request.query;
     const { title } = request.query;
 
-    // let meals
-
-    // const ingredient = await knex("ingredients")
-    //   .select([
-    //     "meals.id",
-    //     "meals.title",
-    //     "meals.description",
-    //     "meals.price",
-    //     "meals.category",
-    //     "meals.image",
-    //   ])
-    //   .whereLike("name", `%${title}%`)
-    //   .innerJoin("meals", "meals.id", "ingredients.meal_id")
-    //   .groupBy("meals.id")
-
-    // const mealTitle = await knex("meals")
-    //   .whereLike("title", `%${title}%`)
-
-    // meals = mealTitle.concat(ingredient)
     const meals = await knex("meals")
       .distinct("meals.id", "meals.title", "meals.description", "meals.price", "meals.category", "meals.image")
       .leftJoin("ingredients", "meals.id", "ingredients.meal_id")
       .whereLike("meals.title", `%${title}%`)
       .orWhereLike("ingredients.name", `%${title}%`);
-
-
-    // if (ingredients) {
-    //   const ingredient = await knex("ingredients")
-    //     .select([
-    //       "meals.id",
-    //       "meals.title",
-    //       "meals.description",
-    //       "meals.price",
-    //       "meals.category",
-    //       "meals.image",
-    //     ])
-    //     .whereLike("name", `%${ingredients}%`)
-    //     .innerJoin("meals", "meals.id", "ingredients.meal_id")
-    //     .groupBy("meals.id")
-
-    //   const title = await knex("meals")
-    //     .whereLike("title", `%${ingredients}%`)
-
-    //   meals = title.concat(ingredient)
-
-    //   // const filterIngredients = ingredients.split(',').map(ingredient => ingredient.trim());
-
-    //   // meals = await knex("ingredients")
-    //   //   .select([
-    //   //     "meals.id",
-    //   //     "meals.title",
-    //   //     "meals.description",
-    //   //     "meals.price",
-    //   //     "meals.category",
-    //   //     "meals.image",
-    //   //   ])
-    //   //   .whereLike("ingredients.name", `%${filterIngredients}%`)
-    //   //   .whereIn("name", filterIngredients)
-    //   //   .innerJoin("meals", "meals.id", "ingredients.meal_id")
-    //   //   .groupBy("meals.id")
-    //   //   .orderBy("meals.title")
-    // } else {
-    //   meals = await knex("meals")
-    //     .whereLike("title", `%${title}%`)
-    // }
-
-    //  talvez tenha que fazer um meals with ingredients
-
 
     return response.json(meals);
   }
