@@ -7,12 +7,12 @@ const UserCreateService = require("../services/UserCreateService");
 
 class UserController {
   async create(request, response) {
-    const { name, email, password } = request.body;
+    const { name, email, password, role } = request.body;
 
     const userRepository = new UserRepository();
     const userCreateService = new UserCreateService(userRepository);
 
-    await userCreateService.execute({ name, email, password });
+    await userCreateService.execute({ name, email, password, role });
 
     return response.status(201).json();
   }

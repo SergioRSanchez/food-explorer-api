@@ -22,7 +22,7 @@ class MealsController {
 
     await knex("ingredients").insert(ingredientsInsert);
 
-    return response.json()
+    return response.json(meal_id)
   }
 
   async show(request, response) {
