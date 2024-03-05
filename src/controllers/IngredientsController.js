@@ -1,5 +1,3 @@
-//  NÃO SEI SE ESTÁ CERTO, ESTÁ RETORNANDO OS INGREDIENTES DE ACORDO COM O ID DO PRATO
-
 const knex = require("../database/knex");
 
 class IngredientsController {
