@@ -25,9 +25,23 @@ class SessionController {
     const token = sign({ role: user.role }, secret, {
       subject: String(user.id),
       expiresIn
-    })
+    });
 
-    return response.json({ user, token });
+    response.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+      maxAge: 15 * 60 * 1000,
+    });
+
+    delete user.password
+
+    return response.json({ user });
+  }
+
+  async destroy(request, response) {
+    response.clearCookie("token");
+    return response.status(200).json();
   }
 }
 
