@@ -1,7 +1,7 @@
 {
   "name": "api-food-explorer",
   "version": "1.0.0",
-  "description": "",
+  "description": "API desenvolvida para o projeto final do Bootcamp da Rocketseat.",
   "main": "index.js",
   "scripts": {
     "start": "pm2-runtime start ecosystem.config.js --env production",
@@ -10,7 +10,7 @@
     "test": "jest --watch"
   },
   "keywords": [],
-  "author": "",
+  "author": "Sérgio Roberto Sanchez Filho",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
