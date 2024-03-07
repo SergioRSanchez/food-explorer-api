@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: [process.env.CLIENT_URL, process.env.ADMIN_URL],
+  origin: [process.env.CLIENT_URL, "http://localhost:5173"],
   credentials: true
 }));
 app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER));
