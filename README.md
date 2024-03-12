@@ -48,6 +48,7 @@ senha: admin
 email: customer@email.com
 senha: customer
 ```
+- O front-end do projeto pode ser encontrado <a href='https://github.com/SergioRSanchez/food-explorer-web'>aqui</a>.
 - Você pode conferir a live do projeto e utilizar os dados acima mencionados clicando <a href='https://food-explorer-website.netlify.app/'>aqui</a>!
 
 ## 🤝 Contato
